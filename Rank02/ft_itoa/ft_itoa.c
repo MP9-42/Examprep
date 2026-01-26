@@ -1,53 +1,65 @@
 #include <stdlib.h>
+#include <limits.h>
 #include <stdio.h>
 
-char makenum(int i)
+int nbnb(int num)
 {
-	char c = '\0';
-	if (i < 10)
-		c = '0' + i;
-	return(c);
+	int i = 0;
+	if (num < 0)
+	{
+		num *= -1;
+		i++;
+	}
+	while(num / 10 > 0)
+	{
+		num /= 10;
+		i++;
+	}
+	i++;
+	return(i);
 }
+
 char *ft_itoa(int num)
 {
-	int counter = 0;
+	if (num == 0)
+		return("0");
+	if (num == INT_MIN)
+		return("-2147483648");
+	int len = nbnb(num);
+	char *str = malloc(sizeof(char) * len + 1);
+	if (!str)
+		return(NULL);
+	str[len] = '\0';
+	len--;
 	int nb = num;
 	if (num < 0)
 	{
-		nb *= -1;
-		counter++;
-	}
-	while (nb % 10 > 0)
-	{
-		nb /= 10;
-		counter++;
-	}
-	printf("%d\n", counter);
-	char *str = malloc(sizeof(char) * counter + 1);
-	if (!str)
-		return(NULL);
-	if (num < 0)
-	{
 		str[0] = '-';
-		num *= -1;
+		nb *= -1;
+		while(len > 0)
+		{
+			str[len] = nb % 10 + '0';
+			len--;
+			nb /= 10;
+		}
 	}
-	str[counter] = '\0';
-	counter--;
-	int num = 0;
-	while(num != 0)
+	else
 	{
-		str[counter] = makenum(num / 10);
-		num = num / 10;
-		counter--;
+		while(len >= 0)
+		{
+			str[len] = nb % 10 + '0';
+			len--;
+			nb /= 10;
+		}
 	}
 	return(str);
 }
 
-int main()
+int main(void)
 {
-	int i = 25756;
+	int i = INT_MAX;
 	char *str = ft_itoa(i);
-
 	printf("%s\n", str);
+	free(str);
 	return(0);
 }
