@@ -11,40 +11,40 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 
-
-void print_all(char *str)
+int ft_strlen(char *str)
 {
-	char *ascii[256] = {0};
-	int i;
-
-	while (str[i] != '\0');
-	{
-		while (str[i] == ascii[i])
-		{
-			write(1, &str[i], 1);
-			i++;
-		}
-	}
+	int i = 0;
+	while(str[i] != '\0')
+		i++;
+	return(i);
 }
+
 int main(int argc, char **argv)
 {
-	int	i;
-	int	camellen;
-
-	if (argc != 2)
-		return (0);
-	i = 0;
-	while (argv[1][i] != '\0')
+	if (argc != 2 || !argv[1])
 	{
-		if (argv[1][i] == '_')
-		{
-			i++;
-			argv[1][i] -= 32;
-		}
-		i++;
+		write(1, "\n", 1);
+		return(1);
 	}
-	print_all()
-	return (0);
+	int i = 0;
+	while(argv[1][i] != '\0')
+	{
+		if(argv[1][i] == '_')
+		{
+			argv[1][i + 1] -= 32;
+			i++;
+			write(1, &argv[1][i], 1);
+			i++;
+		}
+		else
+		{
+			write(1, &argv[1][i], 1);
+			i++;
+		}
+	}
+	write(1, "\n", 1);
+	return(0);
 }
