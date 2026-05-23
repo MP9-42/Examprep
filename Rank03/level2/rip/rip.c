@@ -45,8 +45,7 @@ int main(int argc, char **argv)
 	char str[len + 1];
 	for (int i = 0; i <= len; i++)
 		str[i] = argv[1][i];
-	int open_rem = 0;
-	int close_rem = 0;
+	int open_rem = 0, close_rem = 0;
 	for (int i = 0; i < len; i++)
 	{
 		if (str[i] == '(')

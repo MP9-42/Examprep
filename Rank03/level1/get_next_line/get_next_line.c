@@ -14,7 +14,7 @@ char *get_next_line(int fd)
 	int i = 0;
 	char *tmp, *str = NULL;
 
-	while(1)
+	while (1)
 	{
 		if (pos >= len && (len = read(fd, buffer, BUFFER_SIZE)) <= 0)
 		{
@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 	if (argc != 2)
 		return(1);
 	int fd = open(argv[1], O_RDONLY);
-	char *line;
+	char *line = NULL;
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -52,5 +52,5 @@ int main(int argc, char **argv)
 	if (line)
 		free(line);
 	close(fd);
-	return(1);
+	return(0);
 }

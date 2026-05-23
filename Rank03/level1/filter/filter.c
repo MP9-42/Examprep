@@ -13,23 +13,23 @@ int main(int argc, char **argv)
 	if (argc != 2)
 		return(1);
 	char buffer[BUFFER_SIZE];
+	char *tmp = NULL;
+	char *result = NULL;
 	char *position;
 	char *find = argv[1];
-	char *result = NULL;
-	char *tmp = NULL;
 	int result_len = 0;
-	int bytes_read;
 	int find_len = strlen(find);
+	int	bytes_read;
 
 	while ((bytes_read = read(0, buffer, BUFFER_SIZE)) > 0)
 	{
-		tmp = realloc(result, result_len + bytes_read + 1);
+		tmp = realloc(result , result_len + bytes_read + 1);
 		if (!tmp)
 			return(free(result), perror("realloc"), 1);
 		result = tmp;
 		memmove(result + result_len, buffer, bytes_read);
 		result_len += bytes_read;
-		result[result_len] = '\0';
+		result[result_len] = '\0'; 
 	}
 	if (bytes_read < 0)
 		return(free(result), perror("read"), 1);
