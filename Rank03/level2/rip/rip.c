@@ -49,15 +49,21 @@ int main(int argc, char **argv)
 	for (int i = 0; i <= len; i++)
 		str[i] = argv[1][i];
 	int open_rem = 0, close_rem = 0;
-	for (int i = 0; i < len; i++)
+	int i = 0;
+	while(str[i] == ')')
+	{
+		str[i] = ' ';
+		i++;
+	}
+	while (str[len] == '(')
+	{
+		str[len] = ' ';
+		len--;
+	}
+	while (i < len)
 	{
 		if (str[i] == '(')
-		{
-			if (close_rem > 0)
-				close_rem--;
-			else
 				open_rem++;
-		}
 		else if (str[i] == ')')
 		{
 			if (open_rem > 0)
@@ -65,6 +71,7 @@ int main(int argc, char **argv)
 			else
 				close_rem++;
 		}
+		i++;
 	}
 	solve(str, 0, open_rem, close_rem, 0, len);
 	return(0);
