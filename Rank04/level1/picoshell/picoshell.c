@@ -10,11 +10,11 @@ int picoshell(char **cmds[])
 	int prev_fd = -1;
 	int exit_code = 0;
 	int i = 0;
-	int status;
 	int fd[2];
+	int status;
 	pid_t pid;
 
-	if (!cmds)
+	if  (!cmds)
 		return(1);
 	while (cmds[i])
 	{

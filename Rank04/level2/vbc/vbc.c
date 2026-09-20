@@ -1,10 +1,17 @@
 #include <stdio.h>
 #include <ctype.h>
 
+static void	unexpected(char c);
+static int	accept(char **s, char c);
+static int	expect(char **s, char c, int *err);
+static int	parse_factor(char **s, int *err);
+static int	parse_term(char **s, int *err);
+static int	parse_expr(char **s, int *err);
+
 static void unexpected(char c)
 {
 	if (c)
-		printf("Unexpected token '%c'\n", c);
+		printf("Unexpected token '%c'\n");
 	else
 		printf("Unexpected end of input\n");
 }
@@ -28,59 +35,57 @@ static int expect(char **s, char c, int *err)
 	return(0);
 }
 
-static int parse_expr(char **s, int *err);
-
-static int parse_factor(char **s, int *err)
+static int	parse_factor(char **s, int *err)
 {
-	int val;
+	int	val;
 
 	if (isdigit((unsigned char)**s))
 	{
 		val = **s - '0';
 		(*s)++;
-		return(val);
+		return (val);
 	}
 	if (accept(s, '('))
 	{
 		val = parse_expr(s, err);
 		if (*err)
-			return(0);
+			return (0);
 		expect(s, ')', err);
-		return(val);
+		return (val);
 	}
 	unexpected(**s);
 	*err = 1;
-	return(0);
+	return (0);
 }
 
-static int parse_term(char **s, int *err)
+static int	parse_term(char **s, int *err)
 {
-	int left;
+	int	left;
 
 	left = parse_factor(s, err);
 	while (!*err && accept(s, '*'))
 		left *= parse_factor(s, err);
-	return(left);
+	return (left);
 }
 
-static int parse_expr(char **s, int *err)
+static int	parse_expr(char **s, int *err)
 {
-	int left;
+	int	left;
 
 	left = parse_term(s, err);
 	while (!*err && accept(s, '+'))
 		left += parse_term(s, err);
-	return(left);
+	return (left);
 }
 
-int main (int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	char *s;
-	int err;
-	int result;
+	char	*s;
+	int		err;
+	int		result;
 
 	if (argc != 2)
-		return(1);
+		return (1);
 	s = argv[1];
 	err = 0;
 	result = parse_expr(&s, &err);
@@ -90,7 +95,7 @@ int main (int argc, char **argv)
 		err = 1;
 	}
 	if (err)
-		return(1);
+		return (1);
 	printf("%d\n", result);
-	return(0);
+	return (0);
 }
